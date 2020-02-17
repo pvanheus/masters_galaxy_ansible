@@ -1,0 +1,31 @@
+# - src: galaxyproject.galaxy
+  # version: 0.9.2
+- src: git@github.com:pvanheus/ansible-galaxy.git
+  name: galaxyproject.galaxy
+- src: galaxyproject.nginx
+  version: 0.6.4
+- src: galaxyproject.postgresql
+  version: 1.0.2
+- src: natefoo.postgresql_objects
+  version: 1.1
+- src: geerlingguy.pip
+  version: 1.0.0
+- src: uchida.miniconda
+  version: 0.3.0
+- src: https://github.com/usegalaxy-eu/ansible-galaxy-systemd
+  name: usegalaxy-eu.galaxy-systemd
+  version: py3
+- src: https://github.com/usegalaxy-eu/ansible-certbot
+  name: usegalaxy-eu.certbot
+- src: https://github.com/galaxyproject/ansible-galaxy-tools
+  name: galaxyproject.galaxy-tools
+# for slurm
+- galaxyproject.repos
+- galaxyproject.slurm
+# for SANBI
+- src: https://github.com/SANBI-SA/ansible-role-common.git
+  name: sanbi-sa.common
+- src: https://github.com/SANBI-SA/ansible-role-munge.git
+  name: sanbi-sa.munge
+- src: https://github.com/SANBI-SA/ansible-role-cloudns-acme.git
+  name: sanbi-sa.cloudns-acme

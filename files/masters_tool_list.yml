@@ -1,0 +1,6 @@
+# This is just a sample file. For a fully documented version of this file, see
+# https://github.com/galaxyproject/ansible-galaxy-tools/blob/master/files/tool_list.yaml.sample
+tools:
+    - name: 'windowmasker_2_5_0'
+      owner: 'yating-l'
+      tool_panel_section_label: 'Repeat Finding And Masking'

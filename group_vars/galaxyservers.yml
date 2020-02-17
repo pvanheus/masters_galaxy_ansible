@@ -1,0 +1,49 @@
+galaxy_venv_python: 3
+pip_virtualenv_command: /usr/bin/python3 -m virtualenv
+
+# PostgreSQL
+postgresql_objects_users:
+  - name: "{{ galaxy_user.name }}"
+    password: null
+postgresql_objects_databases:
+  - name: "{{ galaxy_user.name }}"
+    owner: "{{ galaxy_user.name }}"
+
+
+# Galaxy
+galaxy_create_user: true
+galaxy_separate_privileges: true
+galaxy_manage_paths: true
+galaxy_layout: root-dir
+galaxy_root: /data/srv/galaxy
+galaxy_user: {name: galaxy, shell: /bin/bash}
+galaxy_commit_id: release_19.09
+galaxy_config_style: yaml
+galaxy_force_checkout: true
+miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
+
+# Automatically restart Galaxy by calling a handler named 'Restart
+# Galaxy', whenever the server changes.
+galaxy_restart_handler_name: Restart Galaxy
+
+# SystemD setup
+galaxy_systemd_mode: mule
+galaxy_zergpool_listen_addr: 127.0.0.1:8080
+
+
+# NGINX
+nginx_selinux_allow_local_connections: true
+nginx_servers:
+  - redirect-ssl
+nginx_enable_default_server: false
+nginx_ssl_servers:
+  - galaxy
+nginx_conf_http:
+  client_max_body_size: 1g
+nginx_remove_default_vhost: true
+nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
+      
+galaxy_tools_tool_list_files: [ "files/masters_tool_list.yml" ]
+galaxy_tools_galaxy_instance_url: "https://{{inventory_hostname}}"
+
+# TODO: split this so it works for both gx servers

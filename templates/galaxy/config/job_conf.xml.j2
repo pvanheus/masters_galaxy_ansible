@@ -1,0 +1,13 @@
+<job_conf>
+    <plugins workers="4">
+        <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
+        <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
+    </plugins>
+    <destinations default="slurm">
+        <destination id="slurm" runner="slurm">
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+        </destination>
+        <destination id="local" runner="local"/>
+    </destinations>
+</job_conf>

@@ -1,0 +1,57 @@
+---
+- hosts: galaxyservers
+  become: true
+  pre_tasks:
+    - name: Install Dependencies
+      package:
+        name: ['git', 'make', 'python3-psycopg2', 'python3-virtualenv', 'mercurial', 'python3-pip']
+  handlers:
+    - name: Restart Galaxy
+      systemd:
+        name: galaxy
+        state: restarted
+  roles:
+    - galaxyproject.postgresql
+    - role: natefoo.postgresql_objects
+      become: true
+      become_user: postgres
+    - geerlingguy.pip
+    - role: galaxyproject.galaxy
+      tags: "galaxy"
+    - role: usegalaxy-eu.galaxy-systemd
+      tags: "galaxy-systemd"
+    - uchida.miniconda
+    - role: galaxyproject.nginx
+      tags: "nginx"
+    # disabled on advice from natefoo
+    # - role: galaxyproject.galaxy-tools
+    #   tags: "galaxy_tools"
+
+# ilifu specific
+- hosts: slurmservers
+  become: true
+  roles:
+    - galaxyproject.repos
+    - galaxyproject.slurm
+  
+# sanbi specific
+- hosts: sanbiservers
+  become: true 
+  roles:
+    - role: sanbi-sa.common
+      tags: "sanbi-common"
+    - role: sanbi-sa.munge
+      tags: "sanbi-munge"
+    - role: sanbi-sa.cephfs-client
+      tags: "sanbi-cephfs-client"
+
+- hosts: clusterworkers
+  become: true
+  become_user: "{{ galaxy_user.name }}"
+  tasks:
+    - name: create virtualenv on cluster worker
+      shell: scripts/common_startup.sh --skip-client-build --skip-samples
+      args:
+        chdir: "{{ galaxy_server_dir }}"
+        environment:
+          GALAXY_VIRTUAL_ENV: "{{ galaxy_mutable_data_dir }}/cluster_venv" 
