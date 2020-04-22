@@ -1,5 +1,6 @@
 galaxy_venv_python: 3
 pip_virtualenv_command: /usr/bin/python3 -m virtualenv
+pip_package: python3-pip                               # geerlingguy.pip
 
 # PostgreSQL
 postgresql_objects_users:
@@ -17,11 +18,14 @@ galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /data/srv/galaxy
 galaxy_user: {name: galaxy, shell: /bin/bash}
-galaxy_commit_id: release_19.09
+galaxy_commit_id: release_20.01
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
-
+miniconda_version: "4.6.14"
+galaxy_config_files:
+  - src: "files/tool_sheds_conf.xml"
+    dest: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml"
 # Automatically restart Galaxy by calling a handler named 'Restart
 # Galaxy', whenever the server changes.
 galaxy_restart_handler_name: Restart Galaxy

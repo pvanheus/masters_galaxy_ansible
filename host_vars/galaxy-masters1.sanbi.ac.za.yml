@@ -4,8 +4,10 @@ galaxy_config:
     admin_users: pvh@sanbi.ac.za
     database_connection: "postgresql:///galaxy?host=/var/run/postgresql"
     check_migrate_tools: false
+    tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
     shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+    tool_sheds_config_file: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml"
 
   uwsgi:
     # Default values
@@ -17,6 +19,7 @@ galaxy_config:
     static-map:
       - /static/style={{ galaxy_server_dir }}/static/style/blue
       - /static={{ galaxy_server_dir }}/static
+      - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
     master: true
     virtualenv: "{{ galaxy_venv_dir }}"
     pythonpath: "{{ galaxy_server_dir }}/lib"

@@ -1,4 +1,27 @@
 ---
+# sanbi specific, needs to run before Galaxy install
+- hosts: sanbiservers
+  pre_tasks:
+    - name: Set hostname to FQDN
+      hostname:
+        name: "{{ inventory_hostname }}"
+  become: true 
+  roles:
+    - role: sanbi-sa.common
+      tags: "sanbi-common"
+    - role: sanbi-sa.munge
+      tags: "sanbi-munge"
+    - role: sanbi-sa.cephfs-client
+      tags: "sanbi-cephfs-client"
+
+# ilifu specific, should run before Galaxy
+- hosts: slurmservers
+  become: true
+  roles:
+    - galaxyproject.repos
+    - galaxyproject.slurm
+  
+
 - hosts: galaxyservers
   become: true
   pre_tasks:
@@ -20,38 +43,27 @@
       tags: "galaxy"
     - role: usegalaxy-eu.galaxy-systemd
       tags: "galaxy-systemd"
-    - uchida.miniconda
+    - role: uchida.miniconda
+      become: true
+      become_user: "{{ galaxy_user.name }}"
+      tags: "conda"
     - role: galaxyproject.nginx
       tags: "nginx"
     # disabled on advice from natefoo
     # - role: galaxyproject.galaxy-tools
     #   tags: "galaxy_tools"
 
-# ilifu specific
-- hosts: slurmservers
-  become: true
-  roles:
-    - galaxyproject.repos
-    - galaxyproject.slurm
-  
-# sanbi specific
-- hosts: sanbiservers
-  become: true 
-  roles:
-    - role: sanbi-sa.common
-      tags: "sanbi-common"
-    - role: sanbi-sa.munge
-      tags: "sanbi-munge"
-    - role: sanbi-sa.cephfs-client
-      tags: "sanbi-cephfs-client"
-
-- hosts: clusterworkers
-  become: true
-  become_user: "{{ galaxy_user.name }}"
-  tasks:
-    - name: create virtualenv on cluster worker
-      shell: scripts/common_startup.sh --skip-client-build --skip-samples
-      args:
-        chdir: "{{ galaxy_server_dir }}"
-        environment:
-          GALAXY_VIRTUAL_ENV: "{{ galaxy_mutable_data_dir }}/cluster_venv" 
+# this is not working at the moment, but the idea is to export the galaxy_user,
+# galaxy_server_dir and galaxy_mutable_data_dir variables from the
+# galaxy role and then run this on one of the cluster worker nodes to create
+# the virtualenv for Galaxy's metadata setting script.
+# - hosts: clusterworkers
+#   become: true
+#   become_user: "{{ galaxy_user.name }}"
+#   tasks:
+#     - name: create virtualenv on cluster worker
+#       shell: scripts/common_startup.sh --skip-client-build --skip-samples
+#       args:
+#         chdir: "{{ galaxy_server_dir }}"
+#         environment:
+#           GALAXY_VIRTUAL_ENV: "{{ galaxy_mutable_data_dir }}/cluster_venv" 

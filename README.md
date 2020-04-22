@@ -1,9 +1,18 @@
 # Ansible for Galaxy servers for Masters project
 
-To get the vault token, on commander.sanbi.ac.za run:
+## Installing Ansible roles
+
+To install all the roles in `requirements.yml` do:
 
 ```bash
-VAULT_TOKEN=SuperSecretKeyInBitwarden VAULT_ADDR=https://commander.sanbi.ac.za:8200 vault token create -policy deploy
+ansible-galaxy install -p roles -r requirements.yml
+```
+## Hashicorp vault
+
+To get the vault token, ensure that vault is unsealed and on commander.sanbi.ac.za run:
+
+```bash
+VAULT_TOKEN=SuperSecretRootTokenInBitwarden VAULT_ADDR=https://commander.sanbi.ac.za:8200 vault token create -policy deploy
 ```
 
 To use the Vault:
@@ -13,3 +22,10 @@ VAULT_TOKEN="blah" VAULT_ADDR="https://commander.sanbi.ac.za:8200" ansible-playb
 ```
 
 The `-i` and `-u` might not be necessary if you have `inventory` and `remote_user` set in `ansible.cfg`.
+
+# Terraform configuration
+
+The Terraform configuration dir contains Hashicorp Terraform configuration for
+creating the Galaxy server on the SANBI OpenStack cloud. Before using it, as much as
+possible of the infrastructure should be imported to the Terraform state file
+with `terraform import`.

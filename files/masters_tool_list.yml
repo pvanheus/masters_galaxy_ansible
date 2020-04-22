@@ -3,4 +3,10 @@
 tools:
     - name: 'windowmasker_2_5_0'
       owner: 'yating-l'
+      install_tool_dependencies: true
+      tool_panel_section_label: 'Repeat Finding And Masking'
+    - name: 'windowmasker'
+      owner: 'sanbi-uwc'
+      install_tool_dependencies: true
+      tool_shed_url: https://testtoolshed.g2.bx.psu.edu/
       tool_panel_section_label: 'Repeat Finding And Masking'
