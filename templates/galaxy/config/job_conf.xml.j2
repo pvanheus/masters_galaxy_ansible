@@ -3,11 +3,53 @@
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
     </plugins>
-    <destinations default="slurm">
+    <destinations default="dynamic">
         <destination id="slurm" runner="slurm">
+            <param id="tmp_dir">True</param>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
         </destination>
         <destination id="local" runner="local"/>
+        <destination id="dynamic" runner="dynamic">
+            <param id="tmp_dir">True</param>
+            <param id="type">dtd</param>
+        </destination>
+        <destination id="cluster_default" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=10000</param>
+            <resubmit condition="memory_limit_reached" destination="cluster_20G" />
+        </destination>
+        <destination id="cluster_20G" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=20000</param>
+            <resubmit condition="memory_limit_reached" destination="cluster_40G" />
+        </destination>
+        <destination id="cluster_40G" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=40000</param>
+        </destination>
+        <destination id="cluster_50G" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=50000</param>
+        </destination>
+        <destination id="cluster_180G" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_mutable_data_dir }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=180000</param>
+        </destination>
     </destinations>
 </job_conf>

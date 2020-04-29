@@ -1,0 +1,9 @@
+# see tool_destinations.yml.sample for a description of
+# what you can do with this file
+default_destination: cluster_default
+verbose: True
+# tools:
+#   kraken2:
+#     default_destination: cluster_50G
+#   kraken2_build_database:
+#     default_destination: cluster_180G

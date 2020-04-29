@@ -34,7 +34,6 @@ galaxy_restart_handler_name: Restart Galaxy
 galaxy_systemd_mode: mule
 galaxy_zergpool_listen_addr: 127.0.0.1:8080
 
-
 # NGINX
 nginx_selinux_allow_local_connections: true
 nginx_servers:
@@ -44,6 +43,7 @@ nginx_ssl_servers:
   - galaxy
 nginx_conf_http:
   client_max_body_size: 1g
+  uwsgi_read_timeout: 600
 nginx_remove_default_vhost: true
 nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
       

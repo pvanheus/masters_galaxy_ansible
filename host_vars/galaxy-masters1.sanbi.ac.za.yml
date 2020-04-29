@@ -7,7 +7,7 @@ galaxy_config:
     tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
     shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
-    tool_sheds_config_file: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml"
+    tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
 
   uwsgi:
     # Default values
