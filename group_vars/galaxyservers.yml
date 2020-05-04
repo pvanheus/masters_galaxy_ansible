@@ -25,7 +25,7 @@ miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
 miniconda_version: "4.6.14"
 galaxy_config_files:
   - src: "files/tool_sheds_conf.xml"
-    dest: "{{ galaxy_mutable_config_dir }}/tool_sheds_conf.xml"
+    dest: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
 # Automatically restart Galaxy by calling a handler named 'Restart
 # Galaxy', whenever the server changes.
 galaxy_restart_handler_name: Restart Galaxy
