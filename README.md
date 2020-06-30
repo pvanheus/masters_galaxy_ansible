@@ -28,4 +28,4 @@ The `-i` and `-u` might not be necessary if you have `inventory` and `remote_use
 The Terraform configuration dir contains Hashicorp Terraform configuration for
 creating the Galaxy server on the SANBI OpenStack cloud. Before using it, as much as
 possible of the infrastructure should be imported to the Terraform state file
-with `terraform import`.
+with `terraform import`. See the README in the Terraform directory for more info.
