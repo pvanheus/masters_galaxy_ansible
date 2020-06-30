@@ -8,6 +8,8 @@ galaxy_config:
     shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
     job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
     tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
+    tool_cache_data_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_cache"
+    tool_search_index_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_search_index"
 
   uwsgi:
     # Default values
