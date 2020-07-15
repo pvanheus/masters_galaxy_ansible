@@ -4,7 +4,7 @@ galaxy_group: galaxyuser
 galaxy_layout: root-dir
 galaxy_root: "/projects/galaxy/pvh_masters_galaxy1"
 galaxy_create_user: false
-galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
+galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
 
 galaxy_config:
     galaxy:
