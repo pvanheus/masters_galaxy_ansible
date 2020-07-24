@@ -7,3 +7,6 @@ verbose: True
 #     default_destination: cluster_50G
 #   kraken2_build_database:
 #     default_destination: cluster_180G
+tools:
+    spaln:
+        default_destination: cluster_20G
