@@ -28,6 +28,14 @@
     - name: Install Dependencies
       package:
         name: ['git', 'make', 'python3-psycopg2', 'python3-virtualenv', 'mercurial', 'python3-pip']
+    - name: Create upload galaxy upload dir
+      file:
+        path: /projects/galaxy/pvh_masters_galaxy1_upload
+        owner: "{{ galaxy_user.name }}"
+        group: "{{ galaxy_user.name }}"
+        mode: 0755
+        state: directory
+      when: inventory_hostname == 'galaxy-masters2.sanbi.ac.za'
   handlers:
     - name: Restart Galaxy
       systemd:

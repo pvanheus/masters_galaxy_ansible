@@ -21,6 +21,8 @@ galaxy_config:
       tool_search_index_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_search_index"
       sanitize_whitelist_file: "{{ galaxy_mutable_data_dir }}/config/sanitize_whitelist.txt"
       nginx_x_accel_redirect_base: /_x_accel_redirect
+      ftp_upload_dir: /projects/galaxy/pvh_masters_galaxy1_upload
+      ftp_upload_site: queue:/projects/galaxy/pvh_masters_galaxy1_upload/your@email
 
     uwsgi:
       # Default values
