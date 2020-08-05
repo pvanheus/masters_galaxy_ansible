@@ -10,3 +10,5 @@ verbose: True
 tools:
     spaln:
         default_destination: cluster_20G
+    idba_tran:
+        default_destination: cluster_64G_8C

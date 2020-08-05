@@ -44,6 +44,13 @@
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=50000</param>
         </destination>
+        <destination id="cluster_64G_8C" runner="slurm">
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=64000 --cpus-per-task=8</param>
+        </destination>
         <destination id="cluster_180G" runner="slurm">
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
