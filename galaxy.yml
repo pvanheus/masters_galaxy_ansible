@@ -57,6 +57,11 @@
       tags: "conda"
     - role: galaxyproject.nginx
       tags: "nginx"
+    - role: usegalaxy_eu.gxadmin
+      tags: gxadmin
+    - role: pvanheus.galaxy_cleanup
+      become: true
+      tags: "galaxy_cleanup"
     # disabled on advice from natefoo
     # - role: galaxyproject.galaxy-tools
     #   tags: "galaxy_tools"
