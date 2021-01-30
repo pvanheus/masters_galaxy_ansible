@@ -4,7 +4,7 @@ galaxy_group: galaxyuser
 galaxy_layout: root-dir
 galaxy_root: "/projects/galaxy/pvh_masters_galaxy1"
 galaxy_create_user: false
-galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
+galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
 
 galaxy_config:
     galaxy:
@@ -23,6 +23,7 @@ galaxy_config:
       nginx_x_accel_redirect_base: /_x_accel_redirect
       ftp_upload_dir: /projects/galaxy/pvh_masters_galaxy1_upload
       ftp_upload_site: queue:/projects/galaxy/pvh_masters_galaxy1_upload/your@email
+      conda_ensure_channels: pvanheus,iuc,conda-forge,bioconda,defaults
 
     uwsgi:
       # Default values

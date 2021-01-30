@@ -23,11 +23,11 @@
   
 
 - hosts: galaxyservers
-  become: true
   pre_tasks:
     - name: Install Dependencies
       package:
         name: ['git', 'make', 'python3-psycopg2', 'python3-virtualenv', 'mercurial', 'python3-pip']
+      become: true
     - name: Create upload galaxy upload dir
       file:
         path: /projects/galaxy/pvh_masters_galaxy1_upload
@@ -36,13 +36,16 @@
         mode: 0755
         state: directory
       when: inventory_hostname == 'galaxy-masters2.sanbi.ac.za'
+      become: true
   handlers:
     - name: Restart Galaxy
       systemd:
         name: galaxy
         state: restarted
+      become: true
   roles:
-    - galaxyproject.postgresql
+    - role: galaxyproject.postgresql
+      become: true
     - role: natefoo.postgresql_objects
       become: true
       become_user: postgres
@@ -57,11 +60,14 @@
       tags: "conda"
     - role: galaxyproject.nginx
       tags: "nginx"
+      become: true
     - role: usegalaxy_eu.gxadmin
       tags: gxadmin
-    - role: pvanheus.galaxy_cleanup
       become: true
-      tags: "galaxy_cleanup"
+    - role: pvanheus.galaxy_cleanup
+      tags: galaxy_cleanup
+      become: true
+
     # disabled on advice from natefoo
     # - role: galaxyproject.galaxy-tools
     #   tags: "galaxy_tools"

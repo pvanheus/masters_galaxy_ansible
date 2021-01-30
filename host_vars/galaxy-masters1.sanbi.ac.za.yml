@@ -12,7 +12,7 @@ galaxy_config:
     tool_search_index_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_search_index"
     sanitize_whitelist_file: "{{ galaxy_mutable_data_dir }}/config/sanitize_whitelist.txt"
     nginx_x_accel_redirect_base: /_x_accel_redirect
-
+    conda_ensure_channels: pvanheus,iuc,conda-forge,bioconda,defaults
   uwsgi:
     # Default values
     socket: 127.0.0.1:8080
