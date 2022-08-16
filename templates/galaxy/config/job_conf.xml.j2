@@ -15,6 +15,11 @@
             <param id="type">dtd</param>
         </destination>
         <destination id="cluster_default" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
@@ -23,6 +28,11 @@
             <resubmit condition="memory_limit_reached" destination="cluster_20G" />
         </destination>
         <destination id="cluster_20G" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
@@ -31,6 +41,11 @@
             <resubmit condition="memory_limit_reached" destination="cluster_40G" />
         </destination>
         <destination id="cluster_40G" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
@@ -38,6 +53,11 @@
             <param id="nativeSpecification">--mem=40000</param>
         </destination>
         <destination id="cluster_50G" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
@@ -45,6 +65,11 @@
             <param id="nativeSpecification">--mem=50000</param>
         </destination>
         <destination id="cluster_64G_8C" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
@@ -52,6 +77,11 @@
             <param id="nativeSpecification">--mem=64000 --cpus-per-task=8</param>
         </destination>
         <destination id="cluster_180G" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
             <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>

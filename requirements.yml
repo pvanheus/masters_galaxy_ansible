@@ -1,7 +1,5 @@
 - src: galaxyproject.galaxy
-  version: 0.9.16
-# - src: https://github.com/galaxyproject/ansible-galaxy.git
-#   name: galaxyproject.galaxy
+  version: 0.10.3
 - src: galaxyproject.nginx
   version: 0.7.0
 - src: galaxyproject.postgresql
@@ -12,20 +10,14 @@
   version: 2.0.0
 - src: uchida.miniconda
   version: 0.3.0
-# - src: https://github.com/usegalaxy-eu/ansible-galaxy-systemd
-#   name: usegalaxy-eu.galaxy-systemd
-#   version: py3
 - src: usegalaxy_eu.galaxy_systemd
-  version: 0.1.4
-# - src: https://github.com/usegalaxy-eu/ansible-certbot
-#   name: usegalaxy-eu.certbot
 - src: usegalaxy_eu.certbot
   version: 0.1.5
 - src: https://github.com/galaxyproject/ansible-galaxy-tools
   name: galaxyproject.galaxy-tools
-# for slurm
-- galaxyproject.repos
-- galaxyproject.slurm
+# # for slurm
+# - galaxyproject.repos
+# - galaxyproject.slurm
 # for SANBI
 - src: https://github.com/SANBI-SA/ansible-role-common.git
   name: sanbi-sa.common
@@ -39,3 +31,13 @@
   version: 0.0.5
 - src: https://github.com/pvanheus/ansible_galaxy_cleanup.git
   name: pvanheus.galaxy_cleanup$
+- src: cyverse-ansible.singularity
+  version: 048c4f178077d05c1e67ae8d9893809aac9ab3b7
+- src: gantsign.golang
+  version: 2.6.3
+- src: galaxyproject.cvmfs
+  version: 0.2.14
+- src: cyverse-ansible.singularity
+  version: 048c4f178077d05c1e67ae8d9893809aac9ab3b7
+- src: gantsign.golang
+  version: 2.6.3  

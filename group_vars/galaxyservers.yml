@@ -18,7 +18,7 @@ galaxy_manage_paths: true
 galaxy_layout: root-dir
 galaxy_root: /data/srv/galaxy
 galaxy_user: {name: galaxy, shell: /bin/bash}
-galaxy_commit_id: release_21.05
+galaxy_commit_id: release_22.05
 galaxy_config_style: yaml
 galaxy_force_checkout: true
 miniconda_prefix: "{{ galaxy_tool_dependency_dir }}/_conda"
@@ -31,9 +31,14 @@ galaxy_config_files:
 # Galaxy', whenever the server changes.
 galaxy_restart_handler_name: Restart Galaxy
 
-# SystemD setup
-galaxy_systemd_mode: mule
-galaxy_zergpool_listen_addr: 127.0.0.1:8080
+
+# systemd
+galaxy_manage_systemd: true
+
+# old - uwsgi - systemd
+# # SystemD setup
+# galaxy_systemd_mode: mule
+# galaxy_zergpool_listen_addr: 127.0.0.1:8080
 
 # NGINX
 nginx_selinux_allow_local_connections: true
@@ -50,5 +55,11 @@ nginx_conf_ssl_certificate: /etc/ssl/certs/fullchain.pem
       
 galaxy_tools_tool_list_files: [ "files/masters_tool_list.yml" ]
 galaxy_tools_galaxy_instance_url: "https://{{inventory_hostname}}"
+
+# Golang
+golang_gopath: '/opt/workspace-go'
+# Singularity target version
+singularity_version: "3.7.4"
+singularity_go_path: "{{ golang_install_dir }}"
 
 # TODO: split this so it works for both gx servers

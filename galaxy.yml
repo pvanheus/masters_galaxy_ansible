@@ -23,6 +23,8 @@
   
 
 - hosts: galaxyservers
+  vars_files:
+    - group_vars/secret.yml
   pre_tasks:
     - name: Install Dependencies
       package:
@@ -37,12 +39,6 @@
         state: directory
       when: inventory_hostname == 'galaxy-masters2.sanbi.ac.za'
       become: true
-  handlers:
-    - name: Restart Galaxy
-      systemd:
-        name: galaxy
-        state: restarted
-      become: true
   roles:
     - role: galaxyproject.postgresql
       become: true
@@ -50,23 +46,31 @@
       become: true
       become_user: postgres
     - geerlingguy.pip
+    - role: gantsign.golang
+      become: true
+      tags: singularity
+    - role: cyverse-ansible.singularity
+      become: true
+      tags: singularity
     - role: galaxyproject.galaxy
+      become: true
       tags: "galaxy"
-    - role: usegalaxy-eu.galaxy-systemd
-      tags: "galaxy-systemd"
     - role: uchida.miniconda
       become: true
       become_user: "{{ galaxy_user.name }}"
       tags: "conda"
     - role: galaxyproject.nginx
+      become: true
       tags: "nginx"
-      become: true
     - role: usegalaxy_eu.gxadmin
+      become: true
       tags: gxadmin
-      become: true
     - role: pvanheus.galaxy_cleanup
-      tags: galaxy_cleanup
       become: true
+      tags: galaxy_cleanup
+    - role: galaxyproject.cvmfs
+      become: true
+      tags: cvmfs
 
     # disabled on advice from natefoo
     # - role: galaxyproject.galaxy-tools

@@ -4,54 +4,66 @@ galaxy_group: galaxyuser
 galaxy_layout: root-dir
 galaxy_root: "/projects/galaxy/pvh_masters_galaxy1"
 galaxy_create_user: false
-galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
-
+# galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
+galaxy_systemd_env: 
+  - DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1"
+  - PATH="{{ galaxy_venv_dir }}/bin:/tools/admin/slurm/current/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 galaxy_config:
     galaxy:
+      dependency_resolvers_config_file: "{{ galaxy_config_dir }}/dependency_resolvers_conf.xml"
+      containers_resolvers_config_file: "{{ galaxy_config_dir }}/container_resolvers_conf.xml"    
       brand: "Masters Galaxy2"
       admin_users: pvh@sanbi.ac.za
       database_connection: "postgresql:///galaxyuser?host=/var/run/postgresql"
       check_migrate_tools: false
       tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
       shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
-      job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
+      job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
       tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
       tool_destinations_config_file: "{{ galaxy_config_dir }}/tool_destinations.yml"
       tool_cache_data_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_cache"
       tool_search_index_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_search_index"
       sanitize_whitelist_file: "{{ galaxy_mutable_data_dir }}/config/sanitize_whitelist.txt"
-      nginx_x_accel_redirect_base: /_x_accel_redirect
       ftp_upload_dir: /projects/galaxy/pvh_masters_galaxy1_upload
       ftp_upload_site: queue:/projects/galaxy/pvh_masters_galaxy1_upload/your@email
       conda_ensure_channels: pvanheus,iuc,conda-forge,bioconda,defaults
+      object_store_store_by: uuid
+      id_secret: "{{ vault_id_secret }}"
+      # SQL Performance
+      database_engine_option_server_side_cursors: true
+      # slow_query_log_threshold: 5
+      # enable_per_request_sql_debugging: true
+      # File serving Performance
+      nginx_x_accel_redirect_base: /_x_accel_redirect
+      # Automation / Ease of Use / User-facing features
+      watch_job_rules: 'auto'
+      allow_path_paste: true
+      show_welcome_with_login: true
+      expose_user_name: true
+      expose_dataset_path: true
+      # Debuggin
+      cleanup_job: onsuccess
 
-    uwsgi:
-      # Default values
-      socket: 127.0.0.1:8080
-      buffer-size: 16384
-      processes: 1
-      threads: 4
-      offload-threads: 2
-      static-map:
-        - /static/style={{ galaxy_server_dir }}/static/style/blue
-        - /static={{ galaxy_server_dir }}/static
-        - /favicon.ico={{ galaxy_server_dir }}/static/favicon.ico
-      master: true
-      virtualenv: "{{ galaxy_venv_dir }}"
-      pythonpath: "{{ galaxy_server_dir }}/lib"
-      module: galaxy.webapps.galaxy.buildapp:uwsgi_app()
-      thunder-lock: true
-      die-on-term: true
-      hook-master-start:
-        - unix_signal:2 gracefully_kill_them_all
-        - unix_signal:15 gracefully_kill_them_all
-      py-call-osafterfork: true
-      enable-threads: true
-      # Our additions
-      mule:
-        - lib/galaxy/main.py
-        - lib/galaxy/main.py
-      farm: job-handlers:1,2
+    gravity:
+      galaxy_root: "{{ galaxy_root }}/server"
+      app_server: gunicorn
+      gunicorn:
+        # listening options
+        bind: "unix:{{ galaxy_mutable_config_dir }}/gunicorn.sock"
+        # performance options
+        workers: 2
+        # Other options that will be passed to gunicorn
+        extra_args: '--forwarded-allow-ips="*"'
+        preload: true
+      celery:
+        concurrency: 2
+        loglevel: INFO
+      handlers:
+        handler:
+          processes: 3
+          pools:
+            - job-handler
+            - workflow-scheduler
 
 galaxy_config_files:
   # this is duplicated from galaxyservers.yml because we override the setting there
@@ -61,9 +73,13 @@ galaxy_config_files:
     dest: "{{ galaxy_config['galaxy']['tool_destinations_config_file'] }}"
 
 galaxy_config_templates:
-  - src: galaxy/config/job_conf.xml.j2
+  - src: galaxy/config/job_conf.yml.j2
     dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
-  
+  - src: templates/galaxy/config/container_resolvers_conf.xml.j2
+    dest: "{{ galaxy_config.galaxy.containers_resolvers_config_file }}"
+  - src: templates/galaxy/config/dependency_resolvers_conf.xml
+    dest: "{{ galaxy_config.galaxy.dependency_resolvers_config_file }}"
+
 # acme
 acme_cloudns_auth_id: "{{ lookup('hashi_vault', 'secret=secret/ansible/cloudns/pvh_masters:auth_id') }}"
 acme_cloudns_password: "{{ lookup('hashi_vault', 'secret=secret/ansible/cloudns/pvh_masters:password') }}"

@@ -1,0 +1,31 @@
+runners:
+  local_runner:
+    load: galaxy.jobs.runners.local:LocalJobRunner
+    workers: 4
+  slurm:
+    load: galaxy.jobs.runners.slurm:SlurmJobRunner
+execution:
+  default: slurm
+  environments:
+    local_dest:
+      runner: local_runner
+    slurm:
+      runner: slurm
+      singularity_enabled: true
+      singularity_cmd: /tools/software/singularity/bin/singularity
+      nativeSpecification: --mem=10000
+      env:
+      - name: LC_ALL
+        value: C
+      - name: SINGULARITY_CACHEDIR
+        value: /tmp/singularity
+      - name: SINGULARITY_TMPDIR
+        value: /tmp
+      - name: GALAXY_VIRTUAL_ENV
+        value: {{ galaxy_root }}/cluster_venv
+      - name: GALAXY_CONFIG_FILE
+        value: {{ galaxy_config_dir }}/galaxy.yml
+    singularity:
+      runner: local_runner
+      singularity_enabled: true        
+      singularity_cmd: /tools/software/singularity/bin/singularity
