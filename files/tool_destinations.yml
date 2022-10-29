@@ -9,6 +9,8 @@ verbose: True
 #     default_destination: cluster_180G
 tools:
     spaln:
-        default_destination: cluster_20G
+        default_destination: cluster_80G_8C
     idba_tran:
         default_destination: cluster_64G_8C
+    repeatmasker_wrapper:
+        default_destination: cluster_30G_8C

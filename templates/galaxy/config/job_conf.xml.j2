@@ -3,10 +3,10 @@
         <plugin id="local" type="runner" load="galaxy.jobs.runners.local:LocalJobRunner"/>
         <plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
     </plugins>
+    <handlers assign_with="db-skip-locked" />
     <destinations default="dynamic">
         <destination id="slurm" runner="slurm">
             <param id="tmp_dir">True</param>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
         </destination>
         <destination id="local" runner="local"/>
@@ -22,7 +22,6 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=10000</param>
             <resubmit condition="memory_limit_reached" destination="cluster_20G" />
@@ -35,10 +34,21 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=20000</param>
             <resubmit condition="memory_limit_reached" destination="cluster_40G" />
+        </destination>
+        <destination id="cluster_30G_8C" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=30000 -c 8</param>
+            <resubmit condition="memory_limit_reached" destination="cluster_64G_8C" />
         </destination>
         <destination id="cluster_40G" runner="slurm">
             <param id="singularity_enabled">true</param>
@@ -48,7 +58,6 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=40000</param>
         </destination>
@@ -60,7 +69,6 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=50000</param>
         </destination>
@@ -72,9 +80,19 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=64000 --cpus-per-task=8</param>
+        </destination>
+        <destination id="cluster_80G_8C" runner="slurm">
+            <param id="singularity_enabled">true</param>
+            <param id="singularity_cmd">/tools/software/singularity/bin/singularity</param>
+            <env id="SINGULARITY_CACHEDIR">/tmp/singularity</env>
+            <env id="SINGULARITY_TMPDIR">/tmp</env>                        
+            <env id="LC_ALL">C</env>
+            <param id="tmp_dir">True</param>
+            <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
+            <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
+            <param id="nativeSpecification">--mem=80000 --cpus-per-task=8</param>
         </destination>
         <destination id="cluster_180G" runner="slurm">
             <param id="singularity_enabled">true</param>
@@ -84,7 +102,6 @@
             <env id="LC_ALL">C</env>
             <param id="tmp_dir">True</param>
             <env id="SLURM_CONF">/tools/admin/slurm/etc/slurm.conf</env>
-            <env id="GALAXY_VIRTUAL_ENV">{{ galaxy_root }}/cluster_venv</env>
             <env id="GALAXY_CONFIG_FILE">{{ galaxy_config_dir }}/galaxy.yml</env>
             <param id="nativeSpecification">--mem=180000</param>
         </destination>
