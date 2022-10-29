@@ -4,6 +4,19 @@ galaxy_group: galaxyuser
 galaxy_layout: root-dir
 galaxy_root: "/projects/galaxy/pvh_masters_galaxy1"
 galaxy_create_user: false
+galaxy_job_metrics_plugins: 
+  - type: core
+  - type: cpuinfo
+    verbose: true
+  - type: meminfo
+  - type: uname
+  - type: cgroup
+  - type: hostname
+
+# for virtualenv
+galaxy_virtualenv_python: /projects/galaxy/pvh_masters_galaxy1/conda/bin/python3
+pip_virtualenv_command: /projects/galaxy/pvh_masters_galaxy1/conda/bin/python3 -m virtualenv
+
 # galaxy_systemd_zergling_env: 'DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1" PATH={{ galaxy_venv_dir }}/bin:/tools/admin/slurm/bin:/tools/aspera/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin'
 galaxy_systemd_env: 
   - DRMAA_LIBRARY_PATH="/tools/admin/slurm/current/lib/libdrmaa.so.1"
@@ -18,7 +31,7 @@ galaxy_config:
       check_migrate_tools: false
       tool_data_path: "{{ galaxy_mutable_data_dir }}/tool-data"
       shed_tool_data_dir: "{{ galaxy_mutable_data_dir }}/tool-data"
-      job_config_file: "{{ galaxy_config_dir }}/job_conf.yml"
+      job_config_file: "{{ galaxy_config_dir }}/job_conf.xml"
       tool_sheds_config_file: "{{ galaxy_config_dir }}/tool_sheds_conf.xml"
       tool_destinations_config_file: "{{ galaxy_config_dir }}/tool_destinations.yml"
       tool_cache_data_dir: "{{ galaxy_mutable_data_dir }}/cache/tool_cache"
@@ -43,6 +56,7 @@ galaxy_config:
       expose_dataset_path: true
       # Debuggin
       cleanup_job: onsuccess
+      metadata_strategy: extended
 
     gravity:
       galaxy_root: "{{ galaxy_root }}/server"
@@ -62,8 +76,8 @@ galaxy_config:
         handler:
           processes: 3
           pools:
-            - job-handler
-            - workflow-scheduler
+            - job-handlers
+            - workflow-schedulers
 
 galaxy_config_files:
   # this is duplicated from galaxyservers.yml because we override the setting there
@@ -73,7 +87,7 @@ galaxy_config_files:
     dest: "{{ galaxy_config['galaxy']['tool_destinations_config_file'] }}"
 
 galaxy_config_templates:
-  - src: galaxy/config/job_conf.yml.j2
+  - src: galaxy/config/job_conf.xml.j2
     dest: "{{ galaxy_config['galaxy']['job_config_file'] }}"
   - src: templates/galaxy/config/container_resolvers_conf.xml.j2
     dest: "{{ galaxy_config.galaxy.containers_resolvers_config_file }}"
