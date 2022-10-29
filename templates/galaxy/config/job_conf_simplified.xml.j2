@@ -1,0 +1,11 @@
+<job_conf>
+    <plugins workers="1">
+	<plugin id="slurm" type="runner" load="galaxy.jobs.runners.slurm:SlurmJobRunner"/>
+    </plugins>
+    <handlers assign_with="db-skip-locked" />
+    <destinations>
+        <destination id="slurm" runner="slurm">
+            <param id="tmp_dir">True</param>
+        </destination>
+    </destinations>
+</job_conf>
