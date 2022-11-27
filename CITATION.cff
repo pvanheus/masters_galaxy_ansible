@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "van Heusden"
+  given-names: "Peter"
+  orcid: "https://orcid.org/0000-0001-6553-5274"
+title: "Galaxy Installation at SANBI"
+version: 1.0.0
+date-released: 2022-06-01
+url: "https://github.com/pvanheus/masters_galaxy_ansible"
